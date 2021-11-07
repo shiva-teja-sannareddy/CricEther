@@ -21,36 +21,36 @@ contract CricEther {
 
     // Struct to store data of each match. A match can only be added by Admin.
     struct Match {
-        uint256 matchId; // Unique Match ID. Starting from 1, will be incremented for every new match added.
-        string team1; // Team 1 name.
-        string team2; // Team 2 name.
-        MatchState state; // Enum to store match state.
-        Team winner; // Enum to store winning Team, This should only be assigned if the match state is set to Win.
-        uint256 totalBets; // To track total number of bets posted for this match. This will also be used to generate Unique bet ID.
+        uint256 matchId;        // Unique Match ID. Starting from 1, will be incremented for every new match added.
+        string team1;           // Team 1 name.
+        string team2;           // Team 2 name.
+        MatchState state;       // Enum to store match state.
+        Team winner;            // Enum to store winning Team, This should only be assigned if the match state is set to Win.
+        uint256 totalBets;      // To track total number of bets posted for this match. This will also be used to generate Unique bet ID.
     }
 
     // Struct to store bet placed on each match. A bet can only be posted by user. Each match can have multiple bets posted by users.
     struct Bet {
-        uint256 matchId; // Unique Match ID. This match ID should be valid i.e., created by Admin.
-        uint256 betId; // Unique Bet ID. Starting from 1, will be incremented for every new bet posted by users for the above match ID.
-        address payable postedBy; // Address of the account using which the bet was posted -> Player 1.
-        Team[2] playerTeamChoice; // Enum of team choice, index 0 -> Choice of player who posted the bet, index 1 -> choice of player who accepted the bet.
-        uint256 player1Entry; // Entry fees of player 1.
-        uint256 ratio; // Ratio -> player1Entry : player2Entry
-        uint256 player2Entry; // Entry fees of player 2.
-        bool accepted; // Boolean to check whether the bet was accepted by any player.
-        address payable acceptedBy; // Address of the account using which the bet was accepted -> Player 2.
-        bool isTransferred; // Boolean to check whether the money was transferred to winner.
+        uint256 matchId;                // Unique Match ID. This match ID should be valid i.e., created by Admin.
+        uint256 betId;                  // Unique Bet ID. Starting from 1, will be incremented for every new bet posted by users for the above match ID.
+        address payable postedBy;       // Address of the account using which the bet was posted -> Player 1.
+        Team[2] playerTeamChoice;       // Enum of team choice, index 0 -> Choice of player who posted the bet, index 1 -> choice of player who accepted the bet.
+        uint256 player1Entry;           // Entry fees of player 1.
+        uint256 ratio;                  // Ratio -> player1Entry : player2Entry
+        uint256 player2Entry;           // Entry fees of player 2.
+        bool accepted;                  // Boolean to check whether the bet was accepted by any player.
+        address payable acceptedBy;     // Address of the account using which the bet was accepted -> Player 2.
+        bool isTransferred;             // Boolean to check whether the money was transferred to winner.
     }
 
-    address payable public admin; // Address of admin to restrict admin features.
-    uint256 matchNo; // To track total number of matches and assign match ID to each match.
-    uint256 commission; // 1% of prize money is charged as commission fee.
+    address payable public admin;   // Address of admin to restrict admin features.
+    uint256 matchNo;                // To track total number of matches and assign match ID to each match.
+    uint256 commission;             // 1% of prize money is charged as commission fee.
 
-    mapping(uint256 => Match) public matches; // Mapping which maps Match ID to Match structs.
-    mapping(uint256 => mapping(uint256 => Bet)) public bets; // Nested Mapping which maps (Match ID) => (Bet ID) => (Bet struct).
-    uint256[] public upcomingMatches; // Array which stores match IDs of Upcoming matches.
-    uint256[] public liveMatches; // Array which stores match IDs of Live matches
+    mapping(uint256 => Match) public matches;                   // Mapping which maps Match ID to Match structs.
+    mapping(uint256 => mapping(uint256 => Bet)) public bets;    // Nested Mapping which maps (Match ID) => (Bet ID) => (Bet struct).
+    uint256[] public upcomingMatches;                           // Array which stores match IDs of Upcoming matches.
+    uint256[] public liveMatches;                               // Array which stores match IDs of Live matches
 
     // Events
     event matchAdded(Match);
@@ -94,8 +94,8 @@ contract CricEther {
         _match.team2 = _team2;
         _match.state = MatchState.Upcoming;
         _match.totalBets = 0;
-        matches[matchNo] = _match; // Add to matches mapping.
-        upcomingMatches.push(matchNo); // Add match ID to upcoming matches.
+        matches[matchNo] = _match;      // Add to matches mapping.
+        upcomingMatches.push(matchNo);  // Add match ID to upcoming matches.
         emit matchAdded(_match);
     }
 
